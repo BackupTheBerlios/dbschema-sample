@@ -1,0 +1,199 @@
+%DBDefault = # -*- cperl -*-
+# notes 
+# companyname:
+# when normalizing it, be sure to have two fields
+# if the company is that of a customer
+# if the company is that of a ship_to
+
+
+  (
+   '!Grant' => 
+   [
+    'select', 
+    'insert',
+    'update',
+    'delete',
+   ],
+  )
+  ;
+
+
+
+# ----------------------------------------------------------------------
+
+@DBSchema = 
+  (
+   {	
+    '!Table' => 'country',
+    '!Fields' => 
+    [
+     'id'                            => 'varchar(3)',
+     'name'                          => 'varchar(40)'
+    ],
+    '!PrimKey' => 'id',
+    '!Init' =>
+        [
+	 { id => 'USA', name => 'United States of America' },
+	 { id => 'AUS', name => 'Australia' },
+	 { id => 'GER', name => 'Germany' },
+	 { id => 'ENG', name => 'England' }
+        ]
+    },
+
+# ----------------------------------------------------------------------
+
+    {
+   '!Table' => 'customer',
+    '!Fields' => 
+     [
+      id                         => 'counter',
+      country_id                 => 'varchar(3)',
+	 
+      firstname                  => 'varchar(40)',
+      lastname                   => 'varchar(40)',
+      companyname                => 'varchar(40)',
+      address1                   => 'varchar(40)',
+      address2                   => 'varchar(40)',
+      city                       => 'varchar(40)',
+      state                      => 'varchar(40)',
+      zip                        => 'varchar(40)',
+      phone                      => 'varchar(40)',
+      fax                        => 'varchar(40)',
+      email                      => 'varchar(40)',
+      vatid                      => 'varchar(40)'
+     ],
+    '!PrimKey' => 'id',
+    },
+
+# ----------------------------------------------------------------------
+
+  {	
+    '!Table' => 'product',
+    '!Fields' => 
+    [
+     id                            => 'counter',
+     name                          => 'varchar(40)',
+     description                   => 'varchar(80)',
+    ],
+    '!PrimKey' => 'id',
+  },
+
+# ----------------------------------------------------------------------
+
+  {	
+    '!Table' => 'license',
+    '!Fields' => 
+    [
+     id                            => 'counter',
+     keyf                          => 'varchar(40)',
+     code                          => 'varchar(80)',
+    ],
+    '!PrimKey' => 'id',
+  },
+
+# ----------------------------------------------------------------------
+
+  {	
+    '!Table' => 'enduser',
+    '!Fields' => 
+    [
+     id                            => 'counter',
+     customer_id                   => 'integer',
+
+     name                          => 'varchar(80)',
+     companyname                   => 'varchar(80)',
+    ],
+    '!PrimKey' => 'id',
+  },
+
+# ----------------------------------------------------------------------
+
+  {	
+    '!Table' => 'orders',
+    '!Fields' => 
+    [
+     id                            => 'counter',
+     customer_id                   => 'integer',
+     country_id                    => 'varchar(3)',
+
+     ship_name                     => 'varchar(80)',
+     ship_companyname              => 'varchar(80)',
+     ship_address1                 => 'varchar(40)',
+     ship_address2                 => 'varchar(40)',
+     ship_city                     => 'varchar(40)',
+     ship_state                    => 'varchar(40)',
+     ship_zipcode                  => 'varchar(40)',
+     orderdate                     => 'date',
+     phone                         => 'varchar(20)',
+     fax                           => 'varchar(20)',
+     email                         => 'varchar(40)',
+     vatid                         => 'varchar(20)',
+     refno                         => 'varchar(40)',
+     promotion                     => 'varchar(100)'
+    ],
+    '!PrimKey' => 'id',
+  },
+
+# ----------------------------------------------------------------------
+
+  {	
+    '!Table' => 'enduser_license',
+    '!Fields' => 
+    [
+     license_id            => 'integer',
+     enduser_id            => 'integer',
+    ],
+    '!PrimKey' => 'license_id, enduser_id',
+  },
+
+# ----------------------------------------------------------------------
+
+  {	
+    '!Table' => 'item',
+    '!Fields' => 
+    [
+     id                   => 'integer',
+     product_version_id   => 'integer',
+
+     active               => 'integer NOT NULL',
+     item_name            => 'varchar(100) NOT NULL',
+     unit_price           => 'decimal',
+     number_of_licenses   => 'integer'
+    ],
+    '!PrimKey' => 'item_id, product_version_id',
+  },
+
+# ----------------------------------------------------------------------
+
+  {	
+    '!Table' => 'product_version',
+    '!Fields' => 
+    [
+     id                    => 'varchar(10)',
+     product_id            => 'integer',
+    ],
+    '!PrimKey' => 'id',
+  },
+
+# ----------------------------------------------------------------------
+
+  {	
+    '!Table' => 'ordered_item',
+    '!Fields' => 
+    [
+     orders_id            => 'integer',
+     item_id              => 'integer',
+     product_id           => 'integer',
+
+     quantity             => 'integer',
+     product_version_id   => 'varchar(10)',
+    ],
+    '!PrimKey' => 'orders_id, item_id, product_id',
+  },
+
+  );
+
+
+
+
+
