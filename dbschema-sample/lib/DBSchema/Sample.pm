@@ -1,5 +1,6 @@
 package DBSchema::Sample;
 
+
 use 5.006;
 use strict;
 use warnings;
@@ -26,7 +27,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(load
 	
 );
-our $VERSION = '1.6';
+our $VERSION = '1.7';
 
 
 # Preloaded methods go here.
@@ -215,16 +216,6 @@ sub app_handle {
   my $attr = { RaiseError => 1, PrintError => 1 } ;
   my $class = __PACKAGE__;
 
-  warn "
-  DBIx::AnyDBD->connect
-	(
-	 $c->{dsn},
-	 $c->{user},
-	 $c->{pass},
-	 $attr,
-	 $class # The one difference between DBI and DBIx::AnyDBD
-	);
-";
 
   DBIx::AnyDBD->connect
 	(
